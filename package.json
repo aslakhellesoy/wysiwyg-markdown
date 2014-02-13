@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "markdown": "~0.5.0",
-    "hallo": "~1.0.2"
+    "hallo": "~1.0.2",
+    "html2markdown": "~1.1.0"
   }
 }

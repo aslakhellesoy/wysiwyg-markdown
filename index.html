@@ -1,28 +1,33 @@
 <!DOCTYPE html>
 <html>
   <body>
-    <textarea id="text-input" oninput="this.editor.update()"
-              rows="6" cols="60">Type **Markdown** here.</textarea>
-    <div id="preview" contenteditable> </div>
+    <textarea id="markdown" rows="6" cols="60">
+## Hello
+What's *up*
+</textarea>
+    <div id="preview" contenteditable>Some text here</div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
-<script src="http://rangy.googlecode.com/svn/trunk/currentrelease/rangy-core.js"></script>
-
-    <script src="node_modules/markdown/lib/markdown.js"></script>
+<!--
+    <script src="bower_components/jquery/jquery.min.js"></script>
+    <script src="bower_components/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+    <script src="bower_components/rangy/rangy-core.js"></script>
     <script src="bower_components/hallo/dist/hallo.js"></script>
+-->
+    <script src="node_modules/markdown/lib/markdown.js"></script>
+    <script src="node_modules/to-markdown/src/to-markdown.js"></script>
     <script>
-      function Editor(input, preview) {
-        this.update = function () {
-          preview.innerHTML = markdown.toHTML(input.value);
-        };
-        input.editor = this;
-        this.update();
-      }
-      var $ = function (id) { return document.getElementById(id); };
-      new Editor($("text-input"), $("preview"));
+      var markdownElt = document.getElementById("markdown");
+      var previewElt = document.getElementById("preview");
 
-      jQuery('.preview').hallo();
+      function renderMarkdown() {
+        previewElt.innerHTML = markdown.toHTML(markdownElt.value);
+      }
+      markdownElt.addEventListener("input", renderMarkdown, false);
+      renderMarkdown();
+
+      previewElt.addEventListener("input", function() {
+        markdownElt.value = toMarkdown(previewElt.innerHTML);
+      }, false);
     </script>
   </body>
 </html>
