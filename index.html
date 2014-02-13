@@ -168,12 +168,17 @@ Done.
           to.setAttribute('data-scrolling', 0);
 
           from.addEventListener('scroll', function () {
+            // In some rare cases this event handler doesn't fire after the scrollTop is
+            // set programmatically. In those cases, the value of the data-scrolling attribute
+            // can increase maybe up to 20-30. In this case, when actively scrolling the element,
+            // it will not correctly cause the other element to scroll until the countdown to 0
+            // has finished. That's ok.
             if(from.getAttribute('data-scrolling') > 0) {
-              from.setAttribute('data-scrolling', from.getAttribute('data-scrolling') - 1);
+              from.setAttribute('data-scrolling', parseInt(from.getAttribute('data-scrolling')) - 1);
               return;
             }
             var scrollPercent = from.scrollTop / (from.scrollHeight -1);
-            to.setAttribute('data-scrolling', to.getAttribute('data-scrolling') + 1);
+            to.setAttribute('data-scrolling', parseInt(to.getAttribute('data-scrolling')) + 1);
             to.scrollTop = scrollPercent * (to.scrollHeight - 1);
           });
         }
