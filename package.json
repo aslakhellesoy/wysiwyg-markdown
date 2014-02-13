@@ -9,6 +9,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "markdown": "~0.5.0"
+    "markdown": "~0.5.0",
+    "hallo": "~1.0.2"
   }
 }

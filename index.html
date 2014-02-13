@@ -3,8 +3,14 @@
   <body>
     <textarea id="text-input" oninput="this.editor.update()"
               rows="6" cols="60">Type **Markdown** here.</textarea>
-    <div id="preview"> </div>
+    <div id="preview" contenteditable> </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+<script src="http://rangy.googlecode.com/svn/trunk/currentrelease/rangy-core.js"></script>
+
     <script src="node_modules/markdown/lib/markdown.js"></script>
+    <script src="bower_components/hallo/dist/hallo.js"></script>
     <script>
       function Editor(input, preview) {
         this.update = function () {
@@ -15,6 +21,8 @@
       }
       var $ = function (id) { return document.getElementById(id); };
       new Editor($("text-input"), $("preview"));
+
+      jQuery('.preview').hallo();
     </script>
   </body>
 </html>
