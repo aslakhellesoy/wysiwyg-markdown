@@ -7,20 +7,25 @@
 What's *up*
 </textarea>
     <div id="preview" contenteditable></div>
-    <script src="bower_components/markdown/lib/markdown.js"></script>
-    <script src="bower_components/to-markdown/src/to-markdown.js"></script>
+    <script src="bower_components/marked/lib/marked.js"></script>
+    <script src="bower_components/reMarked.js/reMarked.js"></script>
     <script>
       var markdownElt = document.getElementById("markdown");
       var previewElt = document.getElementById("preview");
 
       function renderMarkdown() {
-        previewElt.innerHTML = markdown.toHTML(markdownElt.value);
+        previewElt.innerHTML = marked(markdownElt.value);
       }
       markdownElt.addEventListener("input", renderMarkdown, false);
       renderMarkdown();
 
+      var reMarker = new reMarked({
+        h1_setext:  false,
+        h2_setext:  false,
+        gfm_code:   true
+      });
       previewElt.addEventListener("input", function() {
-        markdownElt.value = toMarkdown(previewElt.innerHTML);
+        markdownElt.value = reMarker.render(previewElt.innerHTML);
       }, false);
     </script>
   </body>
