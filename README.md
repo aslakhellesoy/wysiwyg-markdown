@@ -1,7 +1,13 @@
+## Run the demo
+
+```
+bower install
+python -m SimpleHTTPServer
+open http://localhost:8000/
+```
+
 Links:
 
-* https://github.com/leeoniya/reMarked.js
-* http://hallojs.org/
 * https://github.com/yoavram/markx
 * http://mashable.com/2013/06/24/markdown-tools/
 * http://imperavi.com/redactor/

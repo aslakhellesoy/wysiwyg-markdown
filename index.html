@@ -177,9 +177,10 @@ Done.
               from.setAttribute('data-scrolling', parseInt(from.getAttribute('data-scrolling')) - 1);
               return;
             }
-            var scrollPercent = from.scrollTop / (from.scrollHeight -1);
-            to.setAttribute('data-scrolling', parseInt(to.getAttribute('data-scrolling')) + 1);
-            to.scrollTop = scrollPercent * (to.scrollHeight - 1);
+            var scrollPercent = from.scrollTop / (from.scrollHeight - from.clientHeight);
+            var newValue = Math.min(3, parseInt(to.getAttribute('data-scrolling')) + 1);
+            to.setAttribute('data-scrolling', newValue);
+            to.scrollTop = scrollPercent * (to.scrollHeight - to.clientHeight);
           });
         }
 
