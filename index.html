@@ -1,20 +1,47 @@
 <!DOCTYPE html>
 <html>
+  <link rel="stylesheet" href="bower_components/codemirror/lib/codemirror.css">
   <style>
-#markdown {
+.CodeMirror {
+  border: 1px solid #eee;
+  height: auto;
+}
+.CodeMirror-scroll {
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+
+#editors {
+  clear: both;
+  height: 400px;
+}
+
+#markdown-wrap {
   float: left;
   width: 50%;
 }
-#wysiwyg {
-  margin-left:  50%;
 
+#markdown {
+  float: left;
+  width: 50%;
+  height: 100%;
+}
+
+#wysiwyg-wrap {
+  margin-left:  50%;
+  width: 50%;
+  height: 100%;
+}
+
+#wysiwyg {
   border: 1px solid black;
-  height: 400px; 
   overflow: scroll;
 }
   </style>
   <body>
-    <textarea id="markdown" rows="30" cols="60">
+    <div id="editors">
+      <div id="markdown-wrap">
+        <textarea id="markdown">
 # An h1 dheader
 
 Paragraphs are separated by a blank line.
@@ -138,17 +165,27 @@ $$I = \int \rho R^{2} dV$$
 
 Done.
 </textarea>
-    <div id="wysiwyg" contenteditable height="400px"></div>
+      </div>
+      <div id="wysiwyg-wrap">
+        <div id="wysiwyg" contenteditable></div>
+      </div>
+    </div>
     <script src="bower_components/marked/lib/marked.js"></script>
     <script src="bower_components/reMarked.js/reMarked.js"></script>
+    <script src="bower_components/codemirror/lib/codemirror.js"></script>
+    <script src="bower_components/codemirror/mode/markdown/markdown.js"></script>
     <script>
       var markdownElt = document.getElementById("markdown");
       var wysiwygElt = document.getElementById("wysiwyg");
+      var cm = CodeMirror.fromTextArea(markdownElt, {
+        lineNumbers: true,
+        viewportMargin: Infinity
+      });
 
       function renderMarkdown() {
-        wysiwygElt.innerHTML = marked(markdownElt.value);
+        wysiwygElt.innerHTML = marked(cm.getValue());
       }
-      markdownElt.addEventListener("input", renderMarkdown, false);
+      cm.on("change", renderMarkdown, false);
       renderMarkdown();
 
       var reMarker = new reMarked({
@@ -156,8 +193,13 @@ Done.
         h2_setext:  false,
         gfm_code:   true
       });
-      wysiwygElt.addEventListener("input", function() {
-        markdownElt.value = reMarker.render(wysiwygElt.innerHTML);
+
+      var cmUpdater;
+      wysiwygElt.addEventListener("input", function(e) {
+        if(cmUpdater) clearTimeout(cmUpdater);
+        cmUpdater = setTimeout(function() {
+          cm.setValue(reMarker.render(wysiwygElt.innerHTML));
+        }, 100);
       }, false);
 
       function syncScroll (left, right) {
