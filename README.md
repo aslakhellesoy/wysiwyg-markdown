@@ -8,6 +8,7 @@ open http://localhost:8000/
 
 Links:
 
+* http://quilljs.com/
 * https://github.com/yoavram/markx
 * http://mashable.com/2013/06/24/markdown-tools/
 * http://imperavi.com/redactor/
